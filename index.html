@@ -303,6 +303,29 @@
   .modal-success h3{font-size:19px;}
   .modal-success p{color:var(--muted); font-size:14px; margin-bottom:0;}
 
+  /* free pick image lightbox */
+  .pick-modal-overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,0.8); backdrop-filter:blur(3px);
+    display:none; align-items:center; justify-content:center; z-index:210; padding:20px;
+  }
+  .pick-modal-overlay.open{display:flex;}
+  .pick-modal-box{
+    max-width:460px; width:100%; position:relative;
+  }
+  .pick-modal-box img{
+    width:100%; border-radius:8px; border:1px solid var(--line);
+    box-shadow:0 40px 80px -20px rgba(0,0,0,0.7);
+    display:block;
+  }
+  .pick-modal-caption{
+    text-align:center; font-family:'IBM Plex Mono'; font-size:12px; color:var(--muted);
+    margin-top:14px;
+  }
+  .pick-modal-close{
+    position:absolute; top:-14px; right:-10px; background:var(--gold); color:#161006; border:none;
+    width:34px; height:34px; border-radius:50%; font-size:20px; cursor:pointer; line-height:1;
+  }
+
   /* ---------- SECTIONS GENERIC ---------- */
   section{padding:88px 0;}
   .section-head{max-width:600px; margin-bottom:52px;}
@@ -429,7 +452,7 @@
     <div class="trust-divider"></div>
     <div class="trust-item">
       <svg width="14" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
-      Visa · Mastercard · PayPal · Skrill · Crypto
+      Visa · Mastercard · PayPal · Skrill · M-Pesa · Airtel Money · Crypto
     </div>
     <div class="trust-divider"></div>
     <div class="trust-item">
@@ -453,7 +476,7 @@
       <p class="sub">Gizmo Insights grades every fixture with a model built on form, xG, and squad data — then an analyst checks it before it ever reaches you. Every pick is logged. Nothing is hidden after the fact.</p>
       <div class="hero-ctas">
         <a href="#tiers" class="btn-primary">Unlock VIP Access</a>
-        <a href="#record" class="btn-secondary">See the free picks</a>
+        <a href="#" class="btn-secondary" onclick="openPickModal(); return false;">See the free picks</a>
         <a href="https://t.me/GizmoInsight" target="_blank" rel="noopener" class="btn-telegram">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M21.5 4.5L2.7 11.9c-1.3.5-1.3 1.2-.2 1.6l4.8 1.5 1.9 5.7c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.2-2.1 4.6 3.4c.8.5 1.4.2 1.6-.8l3-14c.3-1.2-.5-1.7-1.4-1.4zM8.5 14.5l9.2-6.5c.4-.3.8-.1.5.2l-7.8 7-1.9-.7z"/></svg>
           Join Telegram
@@ -467,7 +490,7 @@
           <span class="id">#GI-04127</span>
         </div>
         <div class="dossier-body">
-          <div class="fixture">Norway vs. England</div>
+          <div class="fixture">Arsenal vs. Aston Villa</div>
           <div class="fixture-comp">Premier League · Matchday 22</div>
           <div class="pick-row">
             <span class="pick-label">Pick</span>
@@ -479,7 +502,7 @@
           </div>
           <div class="confidence-bar"><div class="confidence-fill"></div></div>
           <div style="height:36px"></div>
-          <div class="stamp">PENDING</div>
+          <div class="stamp">Won</div>
         </div>
         <div class="dossier-foot">
           <span>Graded by model + analyst</span>
@@ -516,8 +539,8 @@
     <div class="feed-label"><span class="live-dot"></span> Last 8 settled picks</div>
     <div class="feed-track">
       <div class="feed-card">
-        <div class="fc-top"><span class="fc-comp">EPL</span><span class="fc-result win">Pending</span></div>
-        <div class="fc-fixture">Norway vs. England</div>
+        <div class="fc-top"><span class="fc-comp">EPL</span><span class="fc-result win">Won</span></div>
+        <div class="fc-fixture">Arsenal vs. Villa</div>
         <div class="fc-pick">Over 2.5 Goals</div>
       </div>
       <div class="feed-card">
@@ -541,18 +564,18 @@
         <div class="fc-pick">Draw No Bet — Home</div>
       </div>
       <div class="feed-card">
-        <div class="fc-top"><span class="fc-comp">MLS Next Pro</span><span class="fc-result win">PENDING</span></div>
-        <div class="fc-fixture">Houston Dynamo 2 vs. St. Louise City 2</div>
+        <div class="fc-top"><span class="fc-comp">Ligue 1</span><span class="fc-result win">Won</span></div>
+        <div class="fc-fixture">Lyon vs. Nice</div>
         <div class="fc-pick">Over 2.5 Goals</div>
       </div>
       <div class="feed-card">
-        <div class="fc-top"><span class="fc-comp">MLS Next Pro<</span><span class="fc-result loss">PENDING</span></div>
-        <div class="fc-fixture">Crown Legacy vs.New York City II</div>
-        <div class="fc-pick">Over 2.5 Goals</div>
+        <div class="fc-top"><span class="fc-comp">EPL</span><span class="fc-result loss">Lost</span></div>
+        <div class="fc-fixture">Brighton vs. Fulham</div>
+        <div class="fc-pick">Away Win</div>
       </div>
       <div class="feed-card">
-        <div class="fc-top"><span class="fc-comp">MLS Next Pro</span><span class="fc-result win">PENDING</span></div>
-        <div class="fc-fixture">Atlanta vs. Inter Miami II</div>
+        <div class="fc-top"><span class="fc-comp">La Liga</span><span class="fc-result win">Won</span></div>
+        <div class="fc-fixture">Villarreal vs. Betis</div>
         <div class="fc-pick">Over 2.5 Goals</div>
       </div>
     </div>
@@ -794,6 +817,14 @@
   </div>
 </footer>
 
+<div class="pick-modal-overlay" id="pick-modal">
+  <div class="pick-modal-box">
+    <button class="pick-modal-close" id="pick-modal-close-btn" aria-label="Close">&times;</button>
+    <img src="free-pick-slip.jpg" alt="Gizmo Insights free pick — accumulator slip, pending">
+    <div class="pick-modal-caption">Logged before kickoff · result updates once matches settle</div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="signup-modal">
   <div class="modal-box">
     <button class="modal-close" id="modal-close-btn" aria-label="Close">&times;</button>
@@ -928,7 +959,21 @@
     const now = new Date();
     const formatted = now.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
     stamp.textContent = 'Last updated ' + formatted;
-  }  // Signup modal logic
+  }  // Free pick image lightbox
+  const pickModal = document.getElementById('pick-modal');
+  function openPickModal(){
+    pickModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closePickModal(){
+    pickModal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('pick-modal-close-btn').addEventListener('click', closePickModal);
+  pickModal.addEventListener('click', (e) => { if (e.target === pickModal) closePickModal(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePickModal(); });
+
+  // Signup modal logic
   const modal = document.getElementById('signup-modal');
   const modalTitle = document.getElementById('modal-title');
   const modalSub = document.getElementById('modal-sub');
