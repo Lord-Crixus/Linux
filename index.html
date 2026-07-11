@@ -432,6 +432,12 @@
     .navlinks{display:none;}
   }
 </style>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  if (window.location.hash && window.location.hash.includes('invite_token')){
+    window.location.href = '/admin/' + window.location.hash;
+  }
+</script>
 </head>
 <body>
 
@@ -445,7 +451,7 @@
       <a href="#faq">FAQ</a>
     </nav>
     <div style="display:flex; align-items:center; gap:12px;">
-      <a href="https://t.me/GizmoInsight" target="_blank" rel="noopener" class="nav-telegram" aria-label="Join Telegram" title="Join Telegram">
+      <a href="https://t.me/GizmoInsight" target="_blank" rel="noopener" class="nav-telegram" id="telegram-link-nav" aria-label="Join Telegram" title="Join Telegram">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M21.5 4.5L2.7 11.9c-1.3.5-1.3 1.2-.2 1.6l4.8 1.5 1.9 5.7c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.2-2.1 4.6 3.4c.8.5 1.4.2 1.6-.8l3-14c.3-1.2-.5-1.7-1.4-1.4zM8.5 14.5l9.2-6.5c.4-.3.8-.1.5.2l-7.8 7-1.9-.7z"/></svg>
       </a>
       <a href="#tiers" class="nav-cta">Get VIP Access</a>
@@ -487,7 +493,7 @@
       <div class="hero-ctas">
         <a href="#tiers" class="btn-primary">Unlock VIP Access</a>
         <a href="#" class="btn-secondary" onclick="openPickModal(); return false;">See the free picks</a>
-        <a href="https://t.me/GizmoInsight" target="_blank" rel="noopener" class="btn-telegram">
+        <a href="https://t.me/GizmoInsight" target="_blank" rel="noopener" class="btn-telegram" id="telegram-link-hero">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M21.5 4.5L2.7 11.9c-1.3.5-1.3 1.2-.2 1.6l4.8 1.5 1.9 5.7c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.2-2.1 4.6 3.4c.8.5 1.4.2 1.6-.8l3-14c.3-1.2-.5-1.7-1.4-1.4zM8.5 14.5l9.2-6.5c.4-.3.8-.1.5.2l-7.8 7-1.9-.7z"/></svg>
           Join Telegram
         </a>
@@ -527,19 +533,19 @@
   <div class="wrap">
     <div class="ledger-grid">
       <div class="ledger-item">
-        <div class="ledger-num">68.4%</div>
+        <div class="ledger-num" id="stat-winrate">68.4%</div>
         <div class="ledger-label">Win rate</div>
       </div>
       <div class="ledger-item">
-        <div class="ledger-num">+24.1%</div>
+        <div class="ledger-num" id="stat-roi">+24.1%</div>
         <div class="ledger-label">ROI to stake</div>
       </div>
       <div class="ledger-item">
-        <div class="ledger-num">412</div>
+        <div class="ledger-num" id="stat-picks">412</div>
         <div class="ledger-label">Picks settled</div>
       </div>
       <div class="ledger-item">
-        <div class="ledger-num">9</div>
+        <div class="ledger-num" id="stat-leagues">9</div>
         <div class="ledger-label">Leagues covered</div>
       </div>
     </div>
@@ -643,7 +649,7 @@
         <div class="vip-badge">Most popular</div>
         <div class="tier-name">VIP</div>
         <div class="tier-for">Best for serious bettors</div>
-        <div class="tier-price">$59<span> /mo</span></div>
+        <div class="tier-price"><span id="price-vip">$59</span><span> /mo</span></div>
         <div class="tier-desc">Full access, delivered early, with an analyst you can actually message.</div>
         <ul class="tier-features">
           <li>All daily picks, 12 hours early</li>
@@ -657,7 +663,7 @@
       <div class="price-card">
         <div class="tier-name">Pro</div>
         <div class="tier-for">Best for regular punters</div>
-        <div class="tier-price">$25<span> /mo</span></div>
+        <div class="tier-price"><span id="price-pro">$25</span><span> /mo</span></div>
         <div class="tier-desc">Daily picks and combos, without the early access or analyst line.</div>
         <ul class="tier-features">
           <li>Daily graded picks</li>
@@ -681,12 +687,12 @@
               </th>
               <th class="plan-col">
                 <div class="plan-name">Pro</div>
-                <div class="plan-price">$25<span> /mo</span></div>
+                <div class="plan-price"><span id="price-pro-table">$25</span><span> /mo</span></div>
                 <a href="#" class="plan-cta" onclick="openSignupModal('Pro'); return false;">Go Pro</a>
               </th>
               <th class="plan-col vip-col">
                 <div class="plan-name">VIP</div>
-                <div class="plan-price">$59<span> /mo</span></div>
+                <div class="plan-price"><span id="price-vip-table">$59</span><span> /mo</span></div>
                 <a href="#" class="plan-cta gold" onclick="openSignupModal('VIP'); return false;">Get VIP</a>
               </th>
             </tr>
@@ -818,7 +824,7 @@
     <div style="display:flex; gap:24px; flex-wrap:wrap; font-size:13px; color:var(--muted); margin-bottom:20px;">
       <a href="terms.html" style="text-decoration:none;">Terms of Service</a>
       <a href="privacy.html" style="text-decoration:none;">Privacy Policy</a>
-      <a href="mailto:hello@gizmoinsights.com" style="text-decoration:none;">Contact</a>
+      <a href="mailto:hello@gizmoinsights.com" id="contact-email-link" style="text-decoration:none;">Contact</a>
       <a href="#faq" style="text-decoration:none;">Refund Policy</a>
     </div>
     <div class="disclaimer">
@@ -988,6 +994,31 @@
   document.getElementById('pick-modal-close-btn').addEventListener('click', closePickModal);
   pickModal.addEventListener('click', (e) => { if (e.target === pickModal) closePickModal(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePickModal(); });
+
+  // Load admin-editable content
+  (function(){
+    fetch('content/site-data.json').then(r => r.json()).then(data => {
+      const set = (id, val) => { const el = document.getElementById(id); if (el && val) el.textContent = val; };
+      set('stat-winrate', data.stat_winrate);
+      set('stat-roi', data.stat_roi);
+      set('stat-picks', data.stat_picks);
+      set('stat-leagues', data.stat_leagues);
+      set('price-pro', data.price_pro);
+      set('price-pro-table', data.price_pro);
+      set('price-vip', data.price_vip);
+      set('price-vip-table', data.price_vip);
+      if (data.telegram_url){
+        const navTg = document.getElementById('telegram-link-nav');
+        const heroTg = document.getElementById('telegram-link-hero');
+        if (navTg) navTg.href = data.telegram_url;
+        if (heroTg) heroTg.href = data.telegram_url;
+      }
+      if (data.contact_email){
+        const contactEl = document.getElementById('contact-email-link');
+        if (contactEl) contactEl.href = 'mailto:' + data.contact_email;
+      }
+    }).catch(err => console.log('Using default content (site-data.json not found)', err));
+  })();
 
   // Signup modal logic
   const modal = document.getElementById('signup-modal');
