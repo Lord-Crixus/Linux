@@ -307,22 +307,32 @@
   .pick-modal-overlay{
     position:fixed; inset:0; background:rgba(0,0,0,0.8); backdrop-filter:blur(3px);
     display:none; align-items:center; justify-content:center; z-index:210; padding:20px;
+    overflow-y:auto;
   }
   .pick-modal-overlay.open{display:flex;}
   .pick-modal-box{
-    max-width:460px; width:100%; position:relative;
+    max-width:900px; width:100%; position:relative; margin:auto;
   }
-  .pick-modal-box img{
+  .pick-modal-title{
+    text-align:center; font-family:'Big Shoulders Display'; font-weight:800; font-size:24px;
+    text-transform:uppercase; color:var(--ink); margin-bottom:6px;
+  }
+  .pick-modal-sub{
+    text-align:center; font-family:'IBM Plex Mono'; font-size:12px; color:var(--muted); margin-bottom:22px;
+  }
+  .pick-gallery{
+    display:grid; grid-template-columns:repeat(2, 1fr); gap:18px;
+  }
+  .pick-gallery-item img{
     width:100%; border-radius:8px; border:1px solid var(--line);
-    box-shadow:0 40px 80px -20px rgba(0,0,0,0.7);
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.6);
     display:block;
   }
-  .pick-modal-caption{
-    text-align:center; font-family:'IBM Plex Mono'; font-size:12px; color:var(--muted);
-    margin-top:14px;
+  @media (max-width:640px){
+    .pick-gallery{grid-template-columns:1fr;}
   }
   .pick-modal-close{
-    position:absolute; top:-14px; right:-10px; background:var(--gold); color:#161006; border:none;
+    position:absolute; top:-46px; right:0; background:var(--gold); color:#161006; border:none;
     width:34px; height:34px; border-radius:50%; font-size:20px; cursor:pointer; line-height:1;
   }
 
@@ -820,8 +830,14 @@
 <div class="pick-modal-overlay" id="pick-modal">
   <div class="pick-modal-box">
     <button class="pick-modal-close" id="pick-modal-close-btn" aria-label="Close">&times;</button>
-    <img src="free-pick-slip.jpg" alt="Gizmo Insights free pick — accumulator slip, pending">
-    <div class="pick-modal-caption">Logged before kickoff · result updates once matches settle</div>
+    <div class="pick-modal-title">Today's Free Picks</div>
+    <div class="pick-modal-sub">Logged before kickoff · results update once matches settle</div>
+    <div class="pick-gallery">
+      <div class="pick-gallery-item"><img src="free-pick-1.jpg" alt="Gizmo Insights free pick slip 1" onerror="this.parentElement.style.display='none'"></div>
+      <div class="pick-gallery-item"><img src="free-pick-2.jpg" alt="Gizmo Insights free pick slip 2" onerror="this.parentElement.style.display='none'"></div>
+      <div class="pick-gallery-item"><img src="free-pick-3.jpg" alt="Gizmo Insights free pick slip 3" onerror="this.parentElement.style.display='none'"></div>
+      <div class="pick-gallery-item"><img src="free-pick-4.jpg" alt="Gizmo Insights free pick slip 4" onerror="this.parentElement.style.display='none'"></div>
+    </div>
   </div>
 </div>
 
