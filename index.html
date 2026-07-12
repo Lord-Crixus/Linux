@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gizmo Insights — VIP Access</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0B1210;
+    --panel: #12201C;
+    --panel-raised: #16261F;
+    --gold: #C9A227;
+    --gold-bright: #E4C558;
+    --green: #3FA34D;
+    --red: #B4483C;
+    --ink: #EDEAE0;
+    --muted: #8B9A93;
+    --line: rgba(237,234,224,0.12);
+    --radius: 4px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+  .display{font-family:'Big Shoulders Display', sans-serif; font-weight:800; letter-spacing:0.01em;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  a{color:inherit;}
+  .wrap{max-width:1160px; margin:0 auto; padding:0 28px;}
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible{outline:2px solid var(--gold-bright); outline-offset:3px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+
+  /* scroll reveal */
+  .reveal{opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1; transform:none;}
+  }
+
+  /* trust strip */
+  .trust-strip{border-bottom:1px solid var(--line); background:var(--bg);}
+  .trust-inner{
+    display:flex; align-items:center; justify-content:center; gap:36px;
+    padding:16px 0; flex-wrap:wrap;
+  }
+  .trust-item{
+    display:flex; align-items:center; gap:8px;
+    font-family:'IBM Plex Mono'; font-size:11.5px; color:var(--muted); letter-spacing:0.04em; text-transform:uppercase;
+  }
+  .trust-item svg{flex-shrink:0;}
+  .trust-divider{width:1px; height:14px; background:var(--line);}
+  @media (max-width:700px){ .trust-divider{display:none;} }
+
+  /* ---------- HEADER ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(11,18,16,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:18px 0;}
+  .logo{
+    display:flex; align-items:baseline; gap:8px;
+    font-family:'Big Shoulders Display', sans-serif;
+    font-weight:900; font-size:24px; letter-spacing:0.03em;
+    text-transform:uppercase;
+  }
+  .logo .dot{color:var(--gold-bright);}
+  .navlinks{display:flex; gap:32px; font-size:14px; color:var(--muted);}
+  .navlinks a{text-decoration:none; transition:color .2s;}
+  .navlinks a:hover{color:var(--ink);}
+  .nav-cta{
+    background:var(--gold); color:#161006; font-weight:600; font-size:14px;
+    padding:10px 18px; border-radius:var(--radius); text-decoration:none;
+    border:1px solid var(--gold);
+    transition:background .2s;
+  }
+  .nav-cta:hover{background:var(--gold-bright);}
+  .navlinks-mobile{display:none;}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:88px 0 64px; position:relative; overflow:hidden;}
+  #hero-3d-canvas{
+    position:absolute; inset:0; width:100%; height:100%;
+    z-index:0; opacity:0.55; pointer-events:none;
+  }
+  .hero-grid{position:relative; z-index:1; display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px; align-items:center;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.12em;
+    color:var(--green); text-transform:uppercase; margin-bottom:20px;
+  }
+  .eyebrow::before{content:''; width:7px; height:7px; border-radius:50%; background:var(--green); box-shadow:0 0 0 3px rgba(63,163,77,0.2);}
+  h1{
+    font-size:clamp(40px, 5.2vw, 68px);
+    line-height:0.98;
+    text-transform:uppercase;
+    margin-bottom:22px;
+  }
+  h1 .accent{color:var(--gold-bright);}
+  .hero p.sub{
+    font-size:17px; color:var(--muted); max-width:480px; margin-bottom:32px;
+  }
+  .hero-ctas{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--gold); color:#161006; font-weight:600; font-size:15px;
+    padding:14px 26px; border-radius:var(--radius); text-decoration:none; border:1px solid var(--gold);
+    transition:transform .15s, background .2s;
+  }
+  .btn-primary:hover{background:var(--gold-bright); transform:translateY(-1px);}
+  .btn-secondary{
+    background:transparent; color:var(--ink); font-weight:500; font-size:15px;
+    padding:14px 26px; border-radius:var(--radius); text-decoration:none; border:1px solid var(--line);
+    transition:border-color .2s;
+  }
+  .btn-secondary:hover{border-color:var(--muted);}
+  .btn-telegram{
+    display:inline-flex; align-items:center; gap:8px;
+    background:#229ED9; color:#fff; font-weight:600; font-size:15px;
+    padding:14px 22px; border-radius:var(--radius); text-decoration:none; border:1px solid #229ED9;
+    transition:background .2s, transform .15s;
+  }
+  .btn-telegram:hover{background:#1b8bc2; transform:translateY(-1px);}
+  .btn-telegram svg{flex-shrink:0;}
+  .nav-telegram{
+    display:flex; align-items:center; justify-content:center;
+    width:30px; height:30px; border-radius:50%; background:#229ED9; color:#fff;
+    transition:background .2s;
+  }
+  .nav-telegram:hover{background:#1b8bc2;}
+
+  /* signature: the match dossier slip */
+  .dossier-wrap{display:flex; justify-content:center; perspective:1200px;}
+  .dossier{
+    background:var(--panel-raised);
+    border:1px solid var(--line);
+    border-radius:6px;
+    width:100%; max-width:380px;
+    padding:0;
+    transform:rotate(2.2deg);
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.6);
+    transition:transform .4s ease;
+    position:relative;
+    overflow:hidden;
+  }
+  .dossier:hover{transform:rotate(0deg) translateY(-4px);}
+  .dossier::before{
+    content:''; position:absolute; inset:0;
+    background-image:repeating-linear-gradient(transparent, transparent 27px, rgba(237,234,224,0.025) 28px);
+    pointer-events:none;
+  }
+  .dossier-head{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:16px 20px; border-bottom:1px dashed var(--line);
+  }
+  .dossier-head .tag{font-family:'IBM Plex Mono'; font-size:11px; letter-spacing:0.1em; color:var(--muted); text-transform:uppercase;}
+  .dossier-head .id{font-family:'IBM Plex Mono'; font-size:11px; color:var(--muted);}
+  .dossier-body{padding:22px 20px 8px;}
+  .fixture{font-size:20px; font-weight:600; margin-bottom:4px;}
+  .fixture-comp{font-size:12px; color:var(--muted); margin-bottom:18px; font-family:'IBM Plex Mono';}
+  .pick-row{display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;}
+  .pick-label{font-size:13px; color:var(--muted);}
+  .pick-value{font-family:'IBM Plex Mono'; font-size:15px; font-weight:600;}
+  .confidence-bar{height:6px; background:rgba(237,234,224,0.1); border-radius:3px; overflow:hidden; margin-top:6px;}
+  .confidence-fill{height:100%; background:linear-gradient(90deg, var(--green), var(--gold-bright)); width:82%;}
+  .stamp{
+    position:absolute; bottom:22px; right:22px;
+    font-family:'Big Shoulders Display'; font-weight:800; font-size:22px;
+    color:var(--green); border:3px solid var(--green); border-radius:8px;
+    padding:4px 14px; transform:rotate(-9deg); opacity:0.85;
+    text-transform:uppercase; letter-spacing:0.05em;
+  }
+  .dossier-foot{
+    padding:14px 20px; border-top:1px dashed var(--line);
+    font-family:'IBM Plex Mono'; font-size:11px; color:var(--muted);
+    display:flex; justify-content:space-between;
+  }
+
+  /* ---------- LEDGER STRIP ---------- */
+  .ledger{
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    background:var(--panel);
+  }
+  .ledger-grid{
+    display:grid; grid-template-columns:repeat(4, 1fr);
+    padding:36px 0;
+  }
+  .ledger-item{text-align:center; border-right:1px solid var(--line);}
+  .ledger-item:last-child{border-right:none;}
+  .ledger-num{font-family:'IBM Plex Mono'; font-weight:600; font-size:clamp(26px,3vw,36px); color:var(--gold-bright);}
+  .ledger-label{font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin-top:6px;}
+  .ledger-note{
+    text-align:center; font-size:12px; color:var(--muted); font-family:'IBM Plex Mono';
+    padding:14px 0; border-top:1px solid var(--line);
+  }
+
+  /* live picks feed */
+  .feed{padding:20px 0 28px; border-top:1px solid var(--line);}
+  .feed-label{
+    font-family:'IBM Plex Mono'; font-size:11px; color:var(--muted); text-transform:uppercase;
+    letter-spacing:0.1em; margin-bottom:14px; display:flex; align-items:center; gap:8px;
+  }
+  .feed-label .live-dot{
+    width:6px; height:6px; border-radius:50%; background:var(--green);
+    box-shadow:0 0 0 3px rgba(63,163,77,0.2);
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+  .feed-track{
+    display:flex; gap:12px; overflow-x:auto; padding-bottom:6px;
+    scrollbar-width:thin;
+  }
+  .feed-track::-webkit-scrollbar{height:4px;}
+  .feed-track::-webkit-scrollbar-thumb{background:var(--line); border-radius:2px;}
+  .feed-card{
+    flex:0 0 auto; min-width:190px;
+    background:var(--panel); border:1px solid var(--line); border-radius:5px;
+    padding:14px 16px;
+  }
+  .feed-card .fc-top{display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;}
+  .feed-card .fc-comp{font-family:'IBM Plex Mono'; font-size:10.5px; color:var(--muted); text-transform:uppercase;}
+  .feed-card .fc-result{
+    font-family:'IBM Plex Mono'; font-size:10.5px; font-weight:600; text-transform:uppercase;
+    padding:2px 8px; border-radius:3px;
+  }
+  .fc-result.win{color:var(--green); background:rgba(63,163,77,0.14);}
+  .fc-result.loss{color:var(--red); background:rgba(180,72,60,0.14);}
+  .feed-card .fc-fixture{font-size:13.5px; font-weight:600; margin-bottom:4px;}
+  .feed-card .fc-pick{font-size:12px; color:var(--muted);}
+
+  /* pricing comparison table */
+  .compare-wrap{overflow-x:auto; border:1px solid var(--line); border-radius:6px;}
+  table.compare{width:100%; border-collapse:collapse; min-width:640px;}
+  table.compare th, table.compare td{
+    padding:16px 20px; text-align:left; border-top:1px solid var(--line); font-size:14px;
+  }
+  table.compare thead th{
+    border-top:none; background:var(--panel); vertical-align:top; padding-top:24px;
+  }
+  table.compare th.plan-col{text-align:center;}
+  table.compare th.plan-col.vip-col{background:var(--panel-raised);}
+  table.compare td.plan-col{text-align:center; color:var(--muted);}
+  table.compare td.plan-col.vip-col{background:rgba(201,162,39,0.05);}
+  table.compare .feat-label{color:var(--ink); font-weight:500;}
+  table.compare .plan-name{
+    font-family:'Big Shoulders Display'; font-weight:800; font-size:19px; text-transform:uppercase;
+  }
+  table.compare .plan-price{font-family:'IBM Plex Mono'; font-size:20px; margin-top:4px;}
+  table.compare .plan-price span{font-size:12px; color:var(--muted);}
+  table.compare .plan-cta{
+    display:inline-block; margin-top:12px; padding:8px 16px; border-radius:var(--radius);
+    font-size:12.5px; font-weight:600; text-decoration:none; border:1px solid var(--line); color:var(--ink);
+  }
+  table.compare .plan-cta.gold{background:var(--gold); color:#161006; border-color:var(--gold);}
+  .check{color:var(--green); font-weight:700;}
+  .dash{color:var(--muted);}
+
+  /* signup modal */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,0.7); backdrop-filter:blur(3px);
+    display:none; align-items:center; justify-content:center; z-index:200; padding:20px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal-box{
+    background:var(--panel-raised); border:1px solid var(--line); border-radius:8px;
+    max-width:420px; width:100%; padding:30px 26px; position:relative;
+    box-shadow:0 40px 80px -20px rgba(0,0,0,0.7);
+  }
+  .modal-close{
+    position:absolute; top:14px; right:16px; background:none; border:none; color:var(--muted);
+    font-size:22px; cursor:pointer; line-height:1; padding:4px;
+  }
+  .modal-close:hover{color:var(--ink);}
+  .modal-eyebrow{font-family:'IBM Plex Mono'; font-size:11px; color:var(--gold-bright); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px;}
+  .modal-box h3{font-family:'Big Shoulders Display'; font-weight:800; font-size:24px; text-transform:uppercase; margin-bottom:8px;}
+  .modal-box p{color:var(--muted); font-size:13.5px; margin-bottom:20px;}
+  .modal-box input{
+    width:100%; padding:12px 14px; margin-bottom:12px; background:var(--panel);
+    border:1px solid var(--line); border-radius:var(--radius); color:var(--ink); font-size:14px;
+    font-family:'IBM Plex Sans';
+  }
+  .modal-box input:focus{outline:none; border-color:var(--gold-bright);}
+  .modal-submit{
+    width:100%; padding:13px; background:var(--gold); color:#161006; font-weight:600; font-size:14.5px;
+    border:1px solid var(--gold); border-radius:var(--radius); cursor:pointer; transition:background .2s;
+  }
+  .modal-submit:hover{background:var(--gold-bright);}
+  .modal-note{font-size:11.5px; color:var(--muted); margin-top:12px; text-align:center;}
+  .modal-success{display:none; text-align:center; padding:10px 0;}
+  .modal-success.show{display:block;}
+  .modal-success .check-icon{font-size:36px; color:var(--green); margin-bottom:12px;}
+  .modal-success h3{font-size:19px;}
+  .modal-success p{color:var(--muted); font-size:14px; margin-bottom:0;}
+
+  /* free pick image lightbox */
+  .pick-modal-overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,0.8); backdrop-filter:blur(3px);
+    display:none; align-items:center; justify-content:center; z-index:210; padding:20px;
+    overflow-y:auto;
+  }
+  .pick-modal-overlay.open{display:flex;}
+  .pick-modal-box{
+    max-width:900px; width:100%; position:relative; margin:auto;
+  }
+  .pick-modal-title{
+    text-align:center; font-family:'Big Shoulders Display'; font-weight:800; font-size:24px;
+    text-transform:uppercase; color:var(--ink); margin-bottom:6px;
+  }
+  .pick-modal-sub{
+    text-align:center; font-family:'IBM Plex Mono'; font-size:12px; color:var(--muted); margin-bottom:22px;
+  }
+  .pick-gallery{
+    display:grid; grid-template-columns:repeat(2, 1fr); gap:18px;
+  }
+  .pick-gallery-item img{
+    width:100%; border-radius:8px; border:1px solid var(--line);
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.6);
+    display:block;
+  }
+  @media (max-width:640px){
+    .pick-gallery{grid-template-columns:1fr;}
+  }
+  .pick-modal-close{
+    position:absolute; top:-46px; right:0; background:var(--gold); color:#161006; border:none;
+    width:34px; height:34px; border-radius:50%; font-size:20px; cursor:pointer; line-height:1;
+  }
+
+  /* ---------- SECTIONS GENERIC ---------- */
+  section{padding:88px 0;}
+  .section-head{max-width:600px; margin-bottom:52px;}
+  .section-eyebrow{
+    font-family:'IBM Plex Mono'; font-size:12px; color:var(--gold-bright); text-transform:uppercase; letter-spacing:0.12em; margin-bottom:12px;
+  }
+  h2{font-size:clamp(28px,3.4vw,42px); text-transform:uppercase; line-height:1.05;}
+  .section-head p{color:var(--muted); margin-top:14px; font-size:16px;}
+
+  /* method */
+  .method-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line);}
+  .method-item{background:var(--bg); padding:32px 28px;}
+  .method-num{font-family:'IBM Plex Mono'; color:var(--gold-bright); font-size:13px; margin-bottom:16px;}
+  .method-item h3{font-size:19px; margin-bottom:10px; font-weight:600; font-family:'IBM Plex Sans';}
+  .method-item p{color:var(--muted); font-size:14.5px;}
+
+  /* pricing */
+  .pricing-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  .price-card{
+    background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:32px 26px;
+    display:flex; flex-direction:column;
+  }
+  .price-card.vip{
+    border-color:var(--gold); background:var(--panel-raised);
+    position:relative;
+    box-shadow:0 20px 50px -25px rgba(201,162,39,0.35);
+  }
+  .vip-badge{
+    position:absolute; top:-13px; left:26px;
+    background:var(--gold); color:#161006; font-size:11px; font-weight:700;
+    padding:4px 12px; border-radius:3px; letter-spacing:0.08em; text-transform:uppercase;
+  }
+  .tier-name{font-family:'Big Shoulders Display'; font-weight:800; font-size:22px; text-transform:uppercase; margin-bottom:4px;}
+  .tier-for{font-family:'IBM Plex Mono'; font-size:11px; color:var(--green); text-transform:uppercase; letter-spacing:0.06em;}
+  .tier-price{font-family:'IBM Plex Mono'; font-size:32px; font-weight:600; margin:14px 0 4px;}
+  .tier-price span{font-size:14px; color:var(--muted); font-weight:400;}
+  .tier-desc{color:var(--muted); font-size:13.5px; margin-bottom:22px;}
+  .tier-features{list-style:none; margin-bottom:28px; flex-grow:1;}
+  .tier-features li{
+    font-size:14px; padding:9px 0; border-top:1px solid var(--line); color:var(--ink);
+    display:flex; gap:10px; align-items:flex-start;
+  }
+  .tier-features li:first-child{border-top:none;}
+  .tier-features li::before{content:'—'; color:var(--gold-bright); flex-shrink:0;}
+  .tier-btn{
+    text-align:center; padding:12px; border-radius:var(--radius); text-decoration:none;
+    font-weight:600; font-size:14px; border:1px solid var(--line); color:var(--ink);
+    transition:border-color .2s;
+  }
+  .tier-btn:hover{border-color:var(--muted);}
+  .tier-btn.gold{background:var(--gold); color:#161006; border-color:var(--gold);}
+  .tier-btn.gold:hover{background:var(--gold-bright);}
+
+  /* testimonials */
+  .testi-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  .testi-card{
+    background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:26px;
+  }
+  .testi-quote{font-size:14.5px; color:var(--ink); margin-bottom:18px;}
+  .testi-who{display:flex; justify-content:space-between; align-items:center;}
+  .testi-name{font-size:13px; font-weight:600;}
+  .testi-tag{font-family:'IBM Plex Mono'; font-size:11px; color:var(--green);}
+  .placeholder-note{
+    margin-top:20px; font-size:12.5px; color:var(--muted); font-style:italic;
+  }
+
+  /* faq */
+  .faq-item{border-top:1px solid var(--line); padding:20px 0;}
+  .faq-item:last-child{border-bottom:1px solid var(--line);}
+  .faq-q{
+    display:flex; justify-content:space-between; align-items:center; cursor:pointer;
+    font-size:16px; font-weight:500; list-style:none;
+  }
+  .faq-q::-webkit-details-marker{display:none;}
+  .faq-q::after{content:'+'; font-family:'IBM Plex Mono'; color:var(--gold-bright); font-size:20px; transition:transform .2s;}
+  details[open] .faq-q::after{transform:rotate(45deg);}
+  .faq-a{color:var(--muted); font-size:14.5px; margin-top:14px; max-width:640px;}
+
+  /* footer */
+  footer{border-top:1px solid var(--line); padding:48px 0 32px; background:var(--panel);}
+  .footer-top{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:32px; flex-wrap:wrap; gap:24px;}
+  .footer-cta h3{font-size:22px; text-transform:uppercase; font-family:'Big Shoulders Display'; margin-bottom:10px;}
+  .disclaimer{
+    font-size:12.5px; color:var(--muted); border-top:1px solid var(--line); padding-top:20px; line-height:1.7;
+  }
+  .disclaimer b{color:var(--ink);}
+
+  @media (max-width:860px){
+    .hero-grid{grid-template-columns:1fr;}
+    .dossier-wrap{margin-top:20px;}
+    .ledger-grid{grid-template-columns:repeat(2,1fr);}
+    .ledger-item:nth-child(2){border-right:none;}
+    .method-grid, .pricing-grid, .testi-grid{grid-template-columns:1fr;}
+    .navlinks{display:none;}
+  }
+</style>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  if (window.location.hash && window.location.hash.includes('invite_token')){
+    window.location.href = '/admin/' + window.location.hash;
+  }
+</script>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="logo">GIZMO<span class="dot">·</span>INSIGHTS</div>
+    <nav class="navlinks">
+      <a href="#record">Track Record</a>
+      <a href="#method">Method</a>
+      <a href="#tiers">VIP Access</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <a href="https://t.me/GizmoInsight" target="_blank" rel="noopener" class="nav-telegram" id="telegram-link-nav" aria-label="Join Telegram" title="Join Telegram">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M21.5 4.5L2.7 11.9c-1.3.5-1.3 1.2-.2 1.6l4.8 1.5 1.9 5.7c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.2-2.1 4.6 3.4c.8.5 1.4.2 1.6-.8l3-14c.3-1.2-.5-1.7-1.4-1.4zM8.5 14.5l9.2-6.5c.4-.3.8-.1.5.2l-7.8 7-1.9-.7z"/></svg>
+      </a>
+      <a href="#tiers" class="nav-cta">Get VIP Access</a>
+    </div>
+  </div>
+</header>
+
+<div class="trust-strip">
+  <div class="wrap trust-inner">
+    <div class="trust-item">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg>
+      Secure checkout
+    </div>
+    <div class="trust-divider"></div>
+    <div class="trust-item">
+      <svg width="14" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+      Visa · Mastercard · PayPal · Skrill · M-Pesa · Airtel Money · Crypto
+    </div>
+    <div class="trust-divider"></div>
+    <div class="trust-item">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      Cancel anytime
+    </div>
+    <div class="trust-divider"></div>
+    <div class="trust-item">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+      Ledger verified nightly
+    </div>
+  </div>
+</div>
+
+<section class="hero">
+  <canvas id="hero-3d-canvas"></canvas>
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Ledger updated nightly</div>
+      <h1>The dossier <br>before the <span class="accent">whistle.</span></h1>
+      <p class="sub">Gizmo Insights grades every fixture with a model built on form, xG, and squad data — then an analyst checks it before it ever reaches you. Every pick is logged. Nothing is hidden after the fact.</p>
+      <div class="hero-ctas">
+        <a href="#tiers" class="btn-primary">Unlock VIP Access</a>
+        <a href="#" class="btn-secondary" onclick="openPickModal(); return false;">See the free picks</a>
+        <a href="https://t.me/GizmoInsight" target="_blank" rel="noopener" class="btn-telegram" id="telegram-link-hero">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M21.5 4.5L2.7 11.9c-1.3.5-1.3 1.2-.2 1.6l4.8 1.5 1.9 5.7c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.2-2.1 4.6 3.4c.8.5 1.4.2 1.6-.8l3-14c.3-1.2-.5-1.7-1.4-1.4zM8.5 14.5l9.2-6.5c.4-.3.8-.1.5.2l-7.8 7-1.9-.7z"/></svg>
+          Join Telegram
+        </a>
+      </div>
+    </div>
+    <div class="dossier-wrap">
+      <div class="dossier">
+        <div class="dossier-head">
+          <span class="tag">Match Dossier</span>
+          <span class="id">#GI-04127</span>
+        </div>
+        <div class="dossier-body">
+          <div class="fixture">Arsenal vs. Aston Villa</div>
+          <div class="fixture-comp">Premier League · Matchday 22</div>
+          <div class="pick-row">
+            <span class="pick-label">Pick</span>
+            <span class="pick-value">Over 2.5 Goals</span>
+          </div>
+          <div class="pick-row">
+            <span class="pick-label">Model confidence</span>
+            <span class="pick-value">82%</span>
+          </div>
+          <div class="confidence-bar"><div class="confidence-fill"></div></div>
+          <div style="height:36px"></div>
+          <div class="stamp">Won</div>
+        </div>
+        <div class="dossier-foot">
+          <span>Graded by model + analyst</span>
+          <span>Settled 08:41</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ledger" id="record">
+  <div class="wrap">
+    <div class="ledger-grid">
+      <div class="ledger-item">
+        <div class="ledger-num" id="stat-winrate">68.4%</div>
+        <div class="ledger-label">Win rate</div>
+      </div>
+      <div class="ledger-item">
+        <div class="ledger-num" id="stat-roi">+24.1%</div>
+        <div class="ledger-label">ROI to stake</div>
+      </div>
+      <div class="ledger-item">
+        <div class="ledger-num" id="stat-picks">412</div>
+        <div class="ledger-label">Picks settled</div>
+      </div>
+      <div class="ledger-item">
+        <div class="ledger-num" id="stat-leagues">9</div>
+        <div class="ledger-label">Leagues covered</div>
+      </div>
+    </div>
+  </div>
+  <div class="ledger-note">Last updated <span id="ledger-updated"></span></div>
+  <div class="wrap feed">
+    <div class="feed-label"><span class="live-dot"></span> Recent settled picks</div>
+    <div class="feed-track" id="feed-track">
+      <div class="feed-card" id="feed-empty-state" style="min-width:100%; text-align:center; color:var(--muted); font-family:'IBM Plex Mono'; font-size:12.5px;">
+        No settled picks logged yet — check back soon, or follow the free weekly pick above.
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="method">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">How a pick gets made</div>
+      <h2>Three checks, every fixture.</h2>
+      <p>No pick reaches VIP until it's passed through all three. That's the whole method — no black box.</p>
+    </div>
+    <div class="method-grid reveal">
+      <div class="method-item">
+        <div class="method-num">01 / Intake</div>
+        <h3>Data intake</h3>
+        <p>Squad news, xG trends, referee tendencies, and injury reports pulled in nightly, per league.</p>
+      </div>
+      <div class="method-item">
+        <div class="method-num">02 / Scoring</div>
+        <h3>Model scoring</h3>
+        <p>A weighted model grades each fixture and assigns a confidence score — shown to you, unedited.</p>
+      </div>
+      <div class="method-item">
+        <div class="method-num">03 / Review</div>
+        <h3>Analyst review</h3>
+        <p>A human catches what the model can't: fatigue, motivation, weather, and last-minute team news.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tiers">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">Pricing</div>
+      <h2>Pick your access level.</h2>
+      <p>Start free, see the ledger for yourself, then upgrade when you trust the process.</p>
+    </div>
+    <div class="pricing-grid reveal">
+      <div class="price-card">
+        <div class="tier-name">Free</div>
+        <div class="tier-for">Best for skeptics</div>
+        <div class="tier-price">$0<span> /mo</span></div>
+        <div class="tier-desc">See the model in action before you spend anything.</div>
+        <ul class="tier-features">
+          <li>1 graded pick per week</li>
+          <li>Full public track record</li>
+          <li>Access to the weekly newsletter</li>
+        </ul>
+        <a href="#" class="tier-btn" onclick="openSignupModal('Free'); return false;">Start free</a>
+      </div>
+      <div class="price-card vip">
+        <div class="vip-badge">Most popular</div>
+        <div class="tier-name">VIP</div>
+        <div class="tier-for">Best for serious bettors</div>
+        <div class="tier-price"><span id="price-vip">$59</span><span> /mo</span></div>
+        <div class="tier-desc">Full access, delivered early, with an analyst you can actually message.</div>
+        <ul class="tier-features">
+          <li>All daily picks, 12 hours early</li>
+          <li>Confidence scores + suggested staking plan</li>
+          <li>Higher-odds "value" picks not shown elsewhere</li>
+          <li>Direct analyst access on Telegram</li>
+          <li>Priority alerts on late team-news changes</li>
+        </ul>
+        <a href="#" class="tier-btn gold" onclick="openSignupModal('VIP'); return false;">Get VIP access</a>
+      </div>
+      <div class="price-card">
+        <div class="tier-name">Pro</div>
+        <div class="tier-for">Best for regular punters</div>
+        <div class="tier-price"><span id="price-pro">$25</span><span> /mo</span></div>
+        <div class="tier-desc">Daily picks and combos, without the early access or analyst line.</div>
+        <ul class="tier-features">
+          <li>Daily graded picks</li>
+          <li>Confidence scores shown</li>
+          <li>Accumulator combos, twice weekly</li>
+        </ul>
+        <a href="#" class="tier-btn" onclick="openSignupModal('Pro'); return false;">Go Pro</a>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top:56px;">
+      <div class="compare-wrap">
+        <table class="compare">
+          <thead>
+            <tr>
+              <th></th>
+              <th class="plan-col">
+                <div class="plan-name">Free</div>
+                <div class="plan-price">$0<span> /mo</span></div>
+                <a href="#" class="plan-cta" onclick="openSignupModal('Free'); return false;">Start free</a>
+              </th>
+              <th class="plan-col">
+                <div class="plan-name">Pro</div>
+                <div class="plan-price"><span id="price-pro-table">$25</span><span> /mo</span></div>
+                <a href="#" class="plan-cta" onclick="openSignupModal('Pro'); return false;">Go Pro</a>
+              </th>
+              <th class="plan-col vip-col">
+                <div class="plan-name">VIP</div>
+                <div class="plan-price"><span id="price-vip-table">$59</span><span> /mo</span></div>
+                <a href="#" class="plan-cta gold" onclick="openSignupModal('VIP'); return false;">Get VIP</a>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="feat-label">Graded picks</td>
+              <td class="plan-col">1 / week</td>
+              <td class="plan-col">Daily</td>
+              <td class="plan-col vip-col">Daily</td>
+            </tr>
+            <tr>
+              <td class="feat-label">Delivery timing</td>
+              <td class="plan-col">Standard</td>
+              <td class="plan-col">Standard</td>
+              <td class="plan-col vip-col">12 hrs early</td>
+            </tr>
+            <tr>
+              <td class="feat-label">Confidence scores</td>
+              <td class="plan-col"><span class="dash">—</span></td>
+              <td class="plan-col"><span class="check">✓</span></td>
+              <td class="plan-col vip-col"><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td class="feat-label">Accumulator combos</td>
+              <td class="plan-col"><span class="dash">—</span></td>
+              <td class="plan-col">2 / week</td>
+              <td class="plan-col vip-col">Unlimited</td>
+            </tr>
+            <tr>
+              <td class="feat-label">Suggested staking plan</td>
+              <td class="plan-col"><span class="dash">—</span></td>
+              <td class="plan-col"><span class="dash">—</span></td>
+              <td class="plan-col vip-col"><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td class="feat-label">Higher-odds "value" picks</td>
+              <td class="plan-col"><span class="dash">—</span></td>
+              <td class="plan-col"><span class="dash">—</span></td>
+              <td class="plan-col vip-col"><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td class="feat-label">Direct analyst access</td>
+              <td class="plan-col"><span class="dash">—</span></td>
+              <td class="plan-col"><span class="dash">—</span></td>
+              <td class="plan-col vip-col"><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td class="feat-label">Full public track record</td>
+              <td class="plan-col"><span class="check">✓</span></td>
+              <td class="plan-col"><span class="check">✓</span></td>
+              <td class="plan-col vip-col"><span class="check">✓</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">Just getting started</div>
+      <h2>Be one of the first in.</h2>
+      <p>Gizmo Insights is new — which means early members get in before the ledger fills up, before prices likely rise, and while the free tier is still the best way to judge us for yourself.</p>
+    </div>
+    <div class="testi-grid reveal">
+      <div class="testi-card">
+        <div class="testi-quote">Check the free picks yourself before you commit to anything. The full ledger, wins and losses both, is public.</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote">No fake reviews here — once real members join, their feedback (with permission) will replace this section.</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote">Questions before joining? Message us directly on Telegram — a real person replies, not a bot.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">Before you join</div>
+      <h2>Frequently asked.</h2>
+    </div>
+    <div style="max-width:720px;" class="reveal">
+      <details class="faq-item">
+        <summary class="faq-q">How are picks delivered?</summary>
+        <p class="faq-a">VIP picks post to a private Telegram channel as soon as they're graded and reviewed — typically 12 hours before kickoff.</p>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">What happens if a pick loses?</summary>
+        <p class="faq-a">It's logged in the public ledger as a loss, same as a win. We don't delete or edit settled picks — the track record has to mean something.</p>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">Can I cancel anytime?</summary>
+        <p class="faq-a">Yes — VIP and Pro are both month-to-month with no lock-in. Cancel from your account page and you'll keep access until the period ends.</p>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">Do you guarantee profit?</summary>
+        <p class="faq-a">No. No one honestly can. We publish our full ledger so you can judge the model's real performance yourself before committing.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-cta">
+        <h3>Ready to see the ledger?</h3>
+      </div>
+      <a href="#tiers" class="btn-primary">Get VIP Access</a>
+    </div>
+    <div style="display:flex; gap:24px; flex-wrap:wrap; font-size:13px; color:var(--muted); margin-bottom:20px;">
+      <a href="terms.html" style="text-decoration:none;">Terms of Service</a>
+      <a href="privacy.html" style="text-decoration:none;">Privacy Policy</a>
+      <a href="mailto:hello@gizmoinsights.com" id="contact-email-link" style="text-decoration:none;">Contact</a>
+      <a href="#faq" style="text-decoration:none;">Refund Policy</a>
+    </div>
+    <div class="disclaimer">
+      <b>18+ only.</b> Predictions are for informational purposes and reflect statistical modelling, not guarantees. Betting involves risk — never stake more than you can afford to lose. If gambling stops being fun, resources like BeGambleAware.org (UK) or the National Council on Problem Gambling (US, 1-800-522-4700) can help. Gizmo Insights is not a licensed betting operator.
+    </div>
+  </div>
+</footer>
+
+<div class="pick-modal-overlay" id="pick-modal">
+  <div class="pick-modal-box">
+    <button class="pick-modal-close" id="pick-modal-close-btn" aria-label="Close">&times;</button>
+    <div class="pick-modal-title">Today's Free Picks</div>
+    <div class="pick-modal-sub">Logged before kickoff · results update once matches settle</div>
+    <div class="pick-gallery">
+      <div class="pick-gallery-item"><img src="free-pick-1.jpg" alt="Gizmo Insights free pick slip 1" onerror="this.parentElement.style.display='none'"></div>
+      <div class="pick-gallery-item"><img src="free-pick-2.jpg" alt="Gizmo Insights free pick slip 2" onerror="this.parentElement.style.display='none'"></div>
+      <div class="pick-gallery-item"><img src="free-pick-3.jpg" alt="Gizmo Insights free pick slip 3" onerror="this.parentElement.style.display='none'"></div>
+      <div class="pick-gallery-item"><img src="free-pick-4.jpg" alt="Gizmo Insights free pick slip 4" onerror="this.parentElement.style.display='none'"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="signup-modal">
+  <div class="modal-box">
+    <button class="modal-close" id="modal-close-btn" aria-label="Close">&times;</button>
+    <div id="modal-form-view">
+      <div class="modal-eyebrow">Payments launching soon</div>
+      <h3 id="modal-title">Join the VIP waitlist</h3>
+      <p id="modal-sub">Payment is being set up — leave your email and you'll get first access plus a launch discount the moment it opens.</p>
+      <form id="signup-form" action="https://formspree.io/f/mykrglrk" method="POST">
+        <input type="text" name="name" placeholder="Your name" required>
+        <input type="email" name="email" placeholder="Your email" required>
+        <input type="hidden" name="tier" id="modal-tier-field" value="VIP">
+        <button type="submit" class="modal-submit">Notify me</button>
+      </form>
+      <div class="modal-note">No spam, no charge today — just a heads-up when checkout opens.</div>
+    </div>
+    <div class="modal-success" id="modal-success-view">
+      <div class="check-icon">✓</div>
+      <h3>You're on the list</h3>
+      <p>We'll email you the moment checkout opens — thanks for your patience while we set things up.</p>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+  // 3D data-network background in the hero
+  (function(){
+    const canvas = document.getElementById('hero-3d-canvas');
+    const heroSection = document.querySelector('.hero');
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!canvas || typeof THREE === 'undefined') return;
+
+    let width = heroSection.clientWidth;
+    let height = heroSection.clientHeight;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(55, width / height, 0.1, 1000);
+    camera.position.z = 34;
+
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(width, height);
+
+    // Node points (styled like data points on a football analytics graph)
+    const NODE_COUNT = 60;
+    const nodes = [];
+    const nodeGeo = new THREE.SphereGeometry(0.22, 8, 8);
+    const goldMat = new THREE.MeshBasicMaterial({ color: 0xE4C558 });
+    const greenMat = new THREE.MeshBasicMaterial({ color: 0x3FA34D });
+
+    const group = new THREE.Group();
+    scene.add(group);
+
+    for (let i = 0; i < NODE_COUNT; i++){
+      const mat = Math.random() > 0.75 ? goldMat : greenMat;
+      const mesh = new THREE.Mesh(nodeGeo, mat);
+      mesh.position.set(
+        (Math.random() - 0.5) * 46,
+        (Math.random() - 0.5) * 30,
+        (Math.random() - 0.5) * 24
+      );
+      group.add(mesh);
+      nodes.push(mesh);
+    }
+
+    // Connecting lines between nearby nodes (network / data-graph look)
+    const lineMat = new THREE.LineBasicMaterial({ color: 0x8B9A93, transparent: true, opacity: 0.25 });
+    const linePositions = [];
+    for (let i = 0; i < nodes.length; i++){
+      for (let j = i + 1; j < nodes.length; j++){
+        const d = nodes[i].position.distanceTo(nodes[j].position);
+        if (d < 9){
+          linePositions.push(nodes[i].position.x, nodes[i].position.y, nodes[i].position.z);
+          linePositions.push(nodes[j].position.x, nodes[j].position.y, nodes[j].position.z);
+        }
+      }
+    }
+    const lineGeo = new THREE.BufferGeometry();
+    lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+    const lines = new THREE.LineSegments(lineGeo, lineMat);
+    group.add(lines);
+
+    function onResize(){
+      width = heroSection.clientWidth;
+      height = heroSection.clientHeight;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+    }
+    window.addEventListener('resize', onResize);
+
+    let mouseX = 0, mouseY = 0;
+    window.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX / window.innerWidth - 0.5);
+      mouseY = (e.clientY / window.innerHeight - 0.5);
+    });
+
+    function animate(){
+      requestAnimationFrame(animate);
+      if (!prefersReducedMotion){
+        group.rotation.y += 0.0009;
+        group.rotation.x += 0.0002;
+        group.rotation.y += mouseX * 0.0006;
+        group.rotation.x += mouseY * 0.0006;
+      }
+      renderer.render(scene, camera);
+    }
+    animate();
+  })();
+</script>
+
+<script>
+  // Scroll-triggered reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && revealEls.length){
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('in'));
+  }
+
+  // Live "last updated" stamp for the ledger
+  const stamp = document.getElementById('ledger-updated');
+  if (stamp){
+    const now = new Date();
+    const formatted = now.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+    stamp.textContent = 'Last updated ' + formatted;
+  }  // Free pick image lightbox
+  const pickModal = document.getElementById('pick-modal');
+  function openPickModal(){
+    pickModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closePickModal(){
+    pickModal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('pick-modal-close-btn').addEventListener('click', closePickModal);
+  pickModal.addEventListener('click', (e) => { if (e.target === pickModal) closePickModal(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePickModal(); });
+
+  // Load recent settled picks feed
+  (function(){
+    fetch('content/recent-picks.json').then(r => r.json()).then(data => {
+      const track = document.getElementById('feed-track');
+      const picks = data.picks || [];
+      if (picks.length === 0) return; // keep the empty-state message already in HTML
+      track.innerHTML = '';
+      picks.slice(0, 8).forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'feed-card';
+        const resultClass = (p.result || '').toLowerCase() === 'won' ? 'win' : 'loss';
+        card.innerHTML = `
+          <div class="fc-top"><span class="fc-comp">${p.competition || ''}</span><span class="fc-result ${resultClass}">${p.result || ''}</span></div>
+          <div class="fc-fixture">${p.fixture || ''}</div>
+          <div class="fc-pick">${p.pick || ''}</div>
+        `;
+        track.appendChild(card);
+      });
+    }).catch(err => console.log('Recent picks feed not found, showing empty state', err));
+  })();
+
+  // Load admin-editable content
+  (function(){
+    fetch('content/site-data.json').then(r => r.json()).then(data => {
+      const set = (id, val) => { const el = document.getElementById(id); if (el && val) el.textContent = val; };
+      set('stat-winrate', data.stat_winrate);
+      set('stat-roi', data.stat_roi);
+      set('stat-picks', data.stat_picks);
+      set('stat-leagues', data.stat_leagues);
+      set('price-pro', data.price_pro);
+      set('price-pro-table', data.price_pro);
+      set('price-vip', data.price_vip);
+      set('price-vip-table', data.price_vip);
+      if (data.telegram_url){
+        const navTg = document.getElementById('telegram-link-nav');
+        const heroTg = document.getElementById('telegram-link-hero');
+        if (navTg) navTg.href = data.telegram_url;
+        if (heroTg) heroTg.href = data.telegram_url;
+      }
+      if (data.contact_email){
+        const contactEl = document.getElementById('contact-email-link');
+        if (contactEl) contactEl.href = 'mailto:' + data.contact_email;
+      }
+    }).catch(err => console.log('Using default content (site-data.json not found)', err));
+  })();
+
+  // Signup modal logic
+  const modal = document.getElementById('signup-modal');
+  const modalTitle = document.getElementById('modal-title');
+  const modalSub = document.getElementById('modal-sub');
+  const modalTierField = document.getElementById('modal-tier-field');
+  const modalFormView = document.getElementById('modal-form-view');
+  const modalSuccessView = document.getElementById('modal-success-view');
+  const signupForm = document.getElementById('signup-form');
+
+  const tierCopy = {
+    'Free': { title: 'Get the free picks', sub: "Free tier is live right now — leave your email and we'll send the weekly pick and track record straight to your inbox." },
+    'Pro': { title: 'Join the Pro waitlist', sub: "Pro checkout is being set up — leave your email and you'll get first access plus a launch discount the moment it opens." },
+    'VIP': { title: 'Join the VIP waitlist', sub: "VIP checkout is being set up — leave your email and you'll get first access plus a launch discount the moment it opens." }
+  };
+
+  function openSignupModal(tier){
+    const copy = tierCopy[tier] || tierCopy['VIP'];
+    modalTitle.textContent = copy.title;
+    modalSub.textContent = copy.sub;
+    modalTierField.value = tier;
+    modalFormView.style.display = 'block';
+    modalSuccessView.classList.remove('show');
+    signupForm.reset();
+    modalTierField.value = tier;
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeSignupModal(){
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('modal-close-btn').addEventListener('click', closeSignupModal);
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeSignupModal(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSignupModal(); });
+
+  signupForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitBtn = signupForm.querySelector('.modal-submit');
+    submitBtn.textContent = 'Sending...';
+    submitBtn.disabled = true;
+    try {
+      const res = await fetch(signupForm.action, {
+        method: 'POST',
+        body: new FormData(signupForm),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok){
+        modalFormView.style.display = 'none';
+        modalSuccessView.classList.add('show');
+      } else {
+        submitBtn.textContent = 'Something went wrong — try again';
+        submitBtn.disabled = false;
+      }
+    } catch (err){
+      submitBtn.textContent = 'Something went wrong — try again';
+      submitBtn.disabled = false;
+    }
+  });
+</script>
+
+</body>
+</html>
