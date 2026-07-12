@@ -1,3 +1,22 @@
 {
-  "picks": []
+  "picks": [
+    {
+      "competition": "La Liga",
+      "fixture": "Real Madrid vs. Barcelona ",
+      "pick": "Home Win",
+      "result": "Won"
+    },
+    {
+      "competition": "Serie a",
+      "fixture": "Juventus vs. Inter Milan ",
+      "pick": "BTTS YES",
+      "result": "Won"
+    },
+    {
+      "competition": "EPL ",
+      "fixture": "Manchester United vs. Arsenal",
+      "pick": "Home Win",
+      "result": "Won"
+    }
+  ]
 }
