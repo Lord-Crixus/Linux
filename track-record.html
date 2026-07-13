@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Full Track Record — Gizmo Insights</title>
+<meta name="description" content="Every settled pick from Gizmo Insights, logged publicly — wins and losses both, nothing hidden.">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0B1210;
+    --panel: #12201C;
+    --panel-raised: #16261F;
+    --gold: #C9A227;
+    --gold-bright: #E4C558;
+    --green: #3FA34D;
+    --red: #B4483C;
+    --ink: #EDEAE0;
+    --muted: #8B9A93;
+    --line: rgba(237,234,224,0.12);
+    --radius: 4px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--bg); color:var(--ink); font-family:'IBM Plex Sans', sans-serif; line-height:1.5;
+  }
+  a{color:inherit;}
+  .wrap{max-width:920px; margin:0 auto; padding:0 24px;}
+
+  header{border-bottom:1px solid var(--line); padding:18px 0;}
+  .nav{display:flex; align-items:center; justify-content:space-between;}
+  .logo{font-family:'Big Shoulders Display'; font-weight:900; font-size:22px; text-transform:uppercase; letter-spacing:0.03em; text-decoration:none;}
+  .logo .dot{color:var(--gold-bright);}
+  .back-link{font-size:13.5px; color:var(--muted); text-decoration:none; display:flex; align-items:center; gap:6px;}
+  .back-link:hover{color:var(--ink);}
+
+  main{padding:56px 0 90px;}
+  .eyebrow{font-family:'IBM Plex Mono'; font-size:12px; color:var(--gold-bright); text-transform:uppercase; letter-spacing:0.12em; margin-bottom:14px;}
+  h1{font-family:'Big Shoulders Display'; font-weight:800; font-size:clamp(32px,5vw,52px); text-transform:uppercase; line-height:1; margin-bottom:16px;}
+  .sub{color:var(--muted); font-size:16px; max-width:560px; margin-bottom:44px;}
+
+  .stat-strip{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line);
+    border:1px solid var(--line); border-radius:6px; overflow:hidden; margin-bottom:48px;
+  }
+  .stat-item{background:var(--panel); padding:24px 16px; text-align:center;}
+  .stat-num{font-family:'IBM Plex Mono'; font-weight:600; font-size:clamp(20px,2.6vw,28px); color:var(--gold-bright);}
+  .stat-label{font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; margin-top:6px;}
+
+  .filter-row{display:flex; gap:10px; margin-bottom:24px; flex-wrap:wrap;}
+  .filter-btn{
+    font-family:'IBM Plex Mono'; font-size:12px; text-transform:uppercase; letter-spacing:0.04em;
+    padding:8px 16px; border-radius:20px; border:1px solid var(--line); background:transparent; color:var(--muted);
+    cursor:pointer; transition:all .15s;
+  }
+  .filter-btn.active{background:var(--gold); color:#161006; border-color:var(--gold); font-weight:600;}
+  .filter-btn:not(.active):hover{border-color:var(--muted); color:var(--ink);}
+
+  table{width:100%; border-collapse:collapse; font-size:14px;}
+  thead th{
+    text-align:left; font-family:'IBM Plex Mono'; font-size:11px; color:var(--muted); text-transform:uppercase;
+    letter-spacing:0.06em; padding:12px 14px; border-bottom:1px solid var(--line);
+  }
+  tbody td{padding:14px; border-bottom:1px solid var(--line); vertical-align:middle;}
+  tbody tr:hover{background:rgba(237,234,224,0.02);}
+  .row-date{color:var(--muted); font-family:'IBM Plex Mono'; font-size:12.5px; white-space:nowrap;}
+  .row-comp{color:var(--muted); font-size:12.5px;}
+  .row-fixture{font-weight:600;}
+  .row-pick{color:var(--muted); font-size:13px;}
+  .result-badge{
+    display:inline-block; font-family:'IBM Plex Mono'; font-size:11px; font-weight:600; text-transform:uppercase;
+    padding:4px 10px; border-radius:3px;
+  }
+  .result-badge.win{color:var(--green); background:rgba(63,163,77,0.14);}
+  .result-badge.loss{color:var(--red); background:rgba(180,72,60,0.14);}
+
+  .empty-state{
+    text-align:center; padding:64px 24px; color:var(--muted); border:1px dashed var(--line); border-radius:8px;
+  }
+  .empty-state h3{font-family:'Big Shoulders Display'; font-size:22px; text-transform:uppercase; color:var(--ink); margin-bottom:10px;}
+
+  footer{border-top:1px solid var(--line); padding:28px 0; text-align:center; font-size:13px; color:var(--muted);}
+  footer a{color:var(--gold-bright); text-decoration:none;}
+
+  @media (max-width:640px){
+    .stat-strip{grid-template-columns:repeat(2,1fr);}
+    thead th:nth-child(1), tbody td:nth-child(1){display:none;} /* hide date col on mobile */
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="index.html" class="logo">GIZMO<span class="dot">·</span>INSIGHTS</a>
+    <a href="index.html" class="back-link">← Back to site</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="eyebrow">Full history · nothing hidden</div>
+  <h1>The complete track record.</h1>
+  <p class="sub">Every pick we've logged, win or loss, in the order it settled. We don't delete losses — the ledger only means something if it's honest.</p>
+
+  <div class="stat-strip">
+    <div class="stat-item">
+      <div class="stat-num" id="tr-winrate">—</div>
+      <div class="stat-label">Win rate</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" id="tr-roi">—</div>
+      <div class="stat-label">ROI to stake</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" id="tr-total">0</div>
+      <div class="stat-label">Picks logged</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" id="tr-leagues">—</div>
+      <div class="stat-label">Leagues covered</div>
+    </div>
+  </div>
+
+  <div class="filter-row">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="won">Won</button>
+    <button class="filter-btn" data-filter="lost">Lost</button>
+  </div>
+
+  <div id="table-wrap">
+    <table id="picks-table" style="display:none;">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Competition</th>
+          <th>Fixture</th>
+          <th>Pick</th>
+          <th>Result</th>
+        </tr>
+      </thead>
+      <tbody id="picks-tbody"></tbody>
+    </table>
+    <div class="empty-state" id="empty-state">
+      <h3>No picks logged yet</h3>
+      <p>Check back soon — every settled pick will appear here permanently, win or lose.</p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    &copy; 2026 Gizmo Insights · <a href="index.html">Home</a> · <a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a>
+  </div>
+</footer>
+
+<script>
+  let allPicks = [];
+
+  function renderPicks(filter){
+    const tbody = document.getElementById('picks-tbody');
+    const table = document.getElementById('picks-table');
+    const empty = document.getElementById('empty-state');
+    tbody.innerHTML = '';
+
+    const filtered = allPicks.filter(p => {
+      if (filter === 'all') return true;
+      return (p.result || '').toLowerCase() === filter;
+    });
+
+    if (filtered.length === 0){
+      table.style.display = 'none';
+      empty.style.display = 'block';
+      return;
+    }
+    table.style.display = 'table';
+    empty.style.display = 'none';
+
+    filtered.forEach(p => {
+      const tr = document.createElement('tr');
+      const resultClass = (p.result || '').toLowerCase() === 'won' ? 'win' : 'loss';
+      tr.innerHTML = `
+        <td class="row-date">${p.date || '—'}</td>
+        <td class="row-comp">${p.competition || ''}</td>
+        <td class="row-fixture">${p.fixture || ''}</td>
+        <td class="row-pick">${p.pick || ''}</td>
+        <td><span class="result-badge ${resultClass}">${p.result || ''}</span></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderPicks(btn.dataset.filter);
+    });
+  });
+
+  fetch('content/recent-picks.json').then(r => r.json()).then(data => {
+    allPicks = data.picks || [];
+    document.getElementById('tr-total').textContent = allPicks.length;
+    renderPicks('all');
+  }).catch(err => console.log('No picks data found yet', err));
+
+  fetch('content/site-data.json').then(r => r.json()).then(data => {
+    const set = (id, val) => { const el = document.getElementById(id); if (el && val) el.textContent = val; };
+    set('tr-winrate', data.stat_winrate);
+    set('tr-roi', data.stat_roi);
+    set('tr-leagues', data.stat_leagues);
+  }).catch(err => console.log('No site data found', err));
+</script>
+
+</body>
+</html>
