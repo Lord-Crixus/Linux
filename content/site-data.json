@@ -1,13 +1,13 @@
 {
-  "stat_winrate": "68.4%",
   "stat_roi": "+24.1%",
+  "price_premium": "$89",
   "stat_picks": "412",
-  "stat_leagues": "9",
+  "member_count": "12",
+  "telegram_url": "https://t.me/GizmoInsight",
+  "stat_winrate": "68.4%",
   "price_weekly": "$19",
   "price_pro": "$25",
   "price_monthly": "$59",
-  "price_premium": "$89",
-  "telegram_url": "https://t.me/GizmoInsight",
-  "contact_email": "hello@gizmoinsights.com",
-  "member_count": "0"
+  "stat_leagues": "9",
+  "contact_email": "hello@gizmoinsights.com"
 }
