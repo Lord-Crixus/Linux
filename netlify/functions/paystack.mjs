@@ -32,7 +32,9 @@ async function grant(reference) {
   const plan = PLANS[meta.plan];
   const userId = meta.telegram_id;
   if (!plan || !userId) return;
-  if (d.currency !== "KES" || d.amount !== plan.kes * 100) {
+  const expectedCur = meta.currency === "USD" ? "USD" : "KES";
+  const expectedAmt = (expectedCur === "USD" ? plan.usd : plan.kes) * 100;
+  if (d.currency !== expectedCur || d.amount !== expectedAmt) {
     console.error("amount mismatch", reference, d.amount, d.currency);
     return;
   }
@@ -74,7 +76,7 @@ async function grant(reference) {
   if (process.env.ADMIN_CHAT_ID) {
     await tg("sendMessage", {
       chat_id: process.env.ADMIN_CHAT_ID,
-      text: `New payment: ${plan.label}, KES ${plan.kes}. User ${meta.telegram_username ? "@" + meta.telegram_username : userId}. Expires ${fmt(expiry)}.`,
+      text: `New payment: ${plan.label}, ${expectedCur} ${expectedAmt / 100}. User ${meta.telegram_username ? "@" + meta.telegram_username : userId}. Expires ${fmt(expiry)}.`,
     });
   }
 }
